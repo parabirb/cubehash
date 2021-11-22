@@ -5,6 +5,13 @@ THIS LIBRARY IS MEANT AS A REFERENCE IMPLEMENTATION. A *REFERENCE IMPLEMENTATION
 ## introduction
 cubehash is an ARX cryptographic hash function by DJB, which was submitted to the SHA-3 competition but did not make it to the finalists. i found it rather interesting and wanted to write an implementation of it. currently, the cryptanalysis seems rather promising (although there hasn't been much since the early 2010s). cubehash is simple to implement and has some nice features, like being able to change the number of rounds, size of input blocks, digest length, etc. however, there seems to be no good implementation of cubehash in JS. this library is meant as a reference for future JS implementations of cubehash. this implementation has no dependencies and is well commented for future reference.
 
+## installation
+browser:
+* put something along the lines of `<script src="https://cdn.jsdelivr.net/npm/node-cubehash/index.js">` in your code. `window.CubeHash` will be set to the CubeHash class.
+
+node:
+* `npm i --save node-cubehash` will install cubehash for you.
+
 ## usage
 the `module.exports` of this library (or `window.CubeHash` if you include `index.js` in the browser) is a class called `CubeHash`. its methods are provided below for reference.
 
@@ -16,7 +23,7 @@ the `module.exports` of this library (or `window.CubeHash` if you include `index
 reference usage:
 ```JS
 // require cubehash
-const CubeHash = require(".");
+const CubeHash = require("node-cubehash");
 // create a new cubehash object. cubehash512 by default.
 const cubehash512 = new CubeHash();
 

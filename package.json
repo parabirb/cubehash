@@ -1,6 +1,6 @@
 {
-  "name": "cubehash",
-  "version": "1.0.0",
+  "name": "node-cubehash",
+  "version": "1.0.1",
   "description": "A pure JavaScript implementation of CubeHash.",
   "main": "index.js",
   "scripts": {
@@ -8,5 +8,13 @@
   },
   "author": "parabirb",
   "license": "Unlicense",
-  "dependencies": {}
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parabirb/cubehash.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/parabirb/cubehash/issues"
+  },
+  "homepage": "https://github.com/parabirb/cubehash#readme"
 }
