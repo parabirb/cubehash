@@ -123,6 +123,15 @@ class CubeHash {
         // return the first h/8 bytes of the state
         return uint8State.slice(0, this.h / 8);
     }
+    // cubemac implementation (see https://cubehash.cr.yp.to/submission2/tweak2.pdf)
+    mac(message, key) {
+        // our key is 64 bytes
+        if (key.length !== 64) {
+            throw new Error("Key length must be 64 bytes (512 bits).");
+        }
+        // we just concat the key and message then hash it
+        return this.hash(new Uint8Array([...key, ...message]));
+    }
 }
 
 // export CubeHash if in CJS, otherwise set window.CubeHash to CubeHash
