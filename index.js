@@ -125,4 +125,10 @@ class CubeHash {
     }
 }
 
-module.exports = CubeHash;
+// export CubeHash if in CJS, otherwise set window.CubeHash to CubeHash
+if (typeof module === "object" && typeof module.exports === "object") {
+    module.exports = CubeHash;
+}
+else {
+    window.CubeHash = CubeHash;
+}
