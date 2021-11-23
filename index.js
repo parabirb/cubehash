@@ -21,7 +21,7 @@ class CubeHash {
         for (let j = 0; j < i; j++) this.round(this.initialState);
     }
     // ROTL
-    ROTL(a, b) {
+    #ROTL(a, b) {
         return (a << b) | (a >>> (32 - b));
     }
     // cubehash round
@@ -32,7 +32,7 @@ class CubeHash {
         }
         // rotate 0jklm upwards by 7 bits for each j, k, l, m
         for (let i = 0; i < 16; i++) {
-            state[i] = this.ROTL(state[i], 7);
+            state[i] = this.#ROTL(state[i], 7);
         }
         // swap 00klm with 01klm for each k, l, m
         for (let i = 0; i < 8; i++) {
@@ -59,7 +59,7 @@ class CubeHash {
         }
         // rotate 0jklm upwards by 11 bits for each j, k, l, m
         for (let i = 0; i < 16; i++) {
-            state[i] = this.ROTL(state[i], 11);
+            state[i] = this.#ROTL(state[i], 11);
         }
         // swap 0j0lm with 0j1lm for each j, l, m
         for (let i = 0; i < 8; i++) {

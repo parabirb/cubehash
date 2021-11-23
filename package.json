@@ -1,6 +1,6 @@
 {
   "name": "node-cubehash",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A pure JavaScript implementation of CubeHash.",
   "main": "index.js",
   "scripts": {
