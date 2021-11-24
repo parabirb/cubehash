@@ -3,8 +3,9 @@
 */
 
 const util = require("./util");
+const crypto = require("crypto");
 const CubeHash = require(".");
-const { performance } = require("perf_hooks");
+const {performance} = require("perf_hooks");
 const cubeHash512 = new CubeHash();
 const testVectorCubeHash = new CubeHash(80, 8, 1, 80, 512);
 
@@ -26,9 +27,39 @@ let hash2 = util.encodeHex(testVectorCubeHash.hash(util.decodeUTF8("The quick br
 console.log(`hash("The quick brown fox jumps over the lazy dog") correct? (should be yes) ${hash2 === "ca942b088ed9103726af1fa87b4deb59e50cf3b5c6dcfbcebf5bba22fb39a6be9936c87bfdd7c52fc5e71700993958fa4e7b5e6e2a3672122475c40f9ec816ba" ? "yes" : "no"}`);
 
 // speedtest
-console.log("Testing speed...");
-let message = util.decodeUTF8("CubeHash JS implementation by parabirb");
-let x = performance.now();
-let hash3 = cubeHash512.hash(message);
-let y = performance.now();
-console.log(`Hash took ${Math.round((y - x) * 100) / 100} ms. (less is better)`);
+console.log("Testing speed (1MB)...");
+let message = new Uint8Array(crypto.randomBytes(1000000));
+let cubeHashPerformance = 0;
+let nativePerformance = 0;
+for (let i = 0; i < 10; i++) {
+    let x = performance.now();
+    let _ = cubeHash512.hash(message);
+    let y = performance.now();
+    cubeHashPerformance += (y - x);
+}
+for (let i = 0; i < 10; i++) {
+    let hashObject = crypto.createHash("sha512");
+    let x = performance.now();
+    let _ = hashObject.update(message).digest();
+    let y = performance.now();
+    nativePerformance += (y - x);
+}
+console.log(`Native crypto performance (SHA-512, averaged over 10 iterations) - ${Math.round(nativePerformance * 10) / 100}ms
+cubehash performance (CubeHash512, averaged over 10 iterations) - ${Math.round(cubeHashPerformance * 10) / 100}ms`);
+console.log("Testing speed (500MB)...")
+message = new Uint8Array(crypto.randomBytes(500000000));
+(() => {
+    let x = performance.now();
+    let _ = cubeHash512.hash(message);
+    let y = performance.now();
+    cubeHashPerformance = y - x;
+})();
+(() => {
+    let hashObject = crypto.createHash("sha512");
+    let x = performance.now();
+    let _ = hashObject.update(message).digest();
+    let y = performance.now();
+    nativePerformance = (y - x);
+})();
+console.log(`Native crypto performance (SHA-512, 1 iteration) - ${Math.round(nativePerformance * 100) / 100}ms
+cubehash performance (CubeHash512, 1 iteration) - ${Math.round(cubeHashPerformance * 100) / 100}ms`);
